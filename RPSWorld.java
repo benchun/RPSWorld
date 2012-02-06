@@ -137,11 +137,16 @@ public class RPSWorld extends ActorWorld
     
     public void addRandomly(ArrayList<RPSCritter> contestants)
     {
+	Grid gr = getGrid();
 	while(contestants.size() > 0)
 	{
 	    int randIndex = (int)(Math.random()*contestants.size());
 	    RPSCritter randCrit = contestants.get(randIndex);
 	    Location randLoc = getRandomEmptyLocation();
+	    while(gr.getEmptyAdjacentLocations(randLoc).size()<8)
+	    {
+		randLoc = getRandomEmptyLocation();
+	    }
 	    add(randLoc, randCrit);
 	    contestants.remove(randIndex);
 	}
