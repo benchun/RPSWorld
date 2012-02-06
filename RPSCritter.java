@@ -29,9 +29,7 @@ public abstract class RPSCritter extends Critter
      * This method is called by RPSWorld.playMatch when this
      * RPSCritter is in a match with another RPSCritter.
      *
-     * Note that you can find out the class of opponent by calling
-     * opponent.getClass() and you can get the match record for a
-     * particular class by calling RPSWorld.getMatchRecord.
+     * Postcondition: the state of opponent is unchanged
      *
      * @param opponent - The other RPSCritter
      *
@@ -55,25 +53,27 @@ public abstract class RPSCritter extends Critter
      */
     public final void moveTo(Location newLocation)
     {
+    	if(newLocation == getLocation()) return;
+    	
     	Grid grid = getGrid(); 
     	if (grid == null) return;
     	
     	if((grid.get(newLocation)) != null)
     	{
-	    if(grid.get(newLocation) instanceof RPSCritter)
-    	    {
-		RPSWorld.playMatch(this, (RPSCritter)grid.get(newLocation));
+		    if(grid.get(newLocation) instanceof RPSCritter)
+	    	{
+				RPSWorld.playMatch(this, (RPSCritter)grid.get(newLocation));
+		    }
 	    }
-    	}
     	// if we're still in the grid, that means we won
     	if(getGrid() == grid)
     	{
-	    // unless it was a draw and our newLocation still isn't empty
-	    // in which case, we just don't move
-	    if((grid.get(newLocation)) == null)
-    	    {
-		super.moveTo(newLocation);
-	    }
+		    // well, unless it was a draw and our newLocation still
+		    // isn't empty. in which case, we just don't move
+		    if((grid.get(newLocation)) == null)
+		    {
+				super.moveTo(newLocation);
+		    }
     	}
     }
     
@@ -82,12 +82,12 @@ public abstract class RPSCritter extends Critter
      *
      * @return a list of possible locations for the next move
      */
-    public final ArrayList<Location> getMoveLocations()
-    {
-	ArrayList<Location> options = getGrid().getValidAdjacentLocations(getLocation());
-	options.add(getLocation());
-	return options;
-    }
+	public final ArrayList<Location> getMoveLocations()
+	{
+		ArrayList<Location> options = getGrid().getValidAdjacentLocations(getLocation());
+		options.add(getLocation());
+		return options;
+	}
 
 
     // superclass methods that may not be overriden

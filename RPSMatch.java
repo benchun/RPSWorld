@@ -1,7 +1,7 @@
 /**
  * An RPSMatch represents a single game of Rock-Paper-Scissors. A new
- * instance of this class is created for every match, which the
- * RPSWorld stores in its match record.
+ * instance of this class is created for every match, and the
+ * RPSWorld then stores this instance in its match record.
  */
 
 public class RPSMatch
@@ -21,37 +21,37 @@ public class RPSMatch
 
     public RPSMatch(RPSCritter one, RPSCritter two)
     {
-	this.one = one;
-	this.two = two;
-
-	oneThrow = one.fight(two);
-    	twoThrow = two.fight(one);
-	oneValid = validThrow(oneThrow);
-	twoValid = validThrow(twoThrow);
-    	
+		this.one = one;
+		this.two = two;
+	
+		oneThrow = one.fight(two);
+	    twoThrow = two.fight(one);
+		oneValid = validThrow(oneThrow);
+		twoValid = validThrow(twoThrow);
+	    	
     	String oneThrowName = getThrowName(oneThrow);
     	String twoThrowName = getThrowName(twoThrow);
     	
     	System.out.println("\t\t" + one.yourName() + " throws: " + oneThrowName);
     	System.out.println("\t\t" + two.yourName() + " throws: " + twoThrowName);
 
-	if (!oneValid)
-	{
-	    System.out.println("\t> "+one.yourName() + " forfeits, invalid throw");
-	    one.removeSelfFromGrid();
-	}
-	if (!twoValid)
-	{
-	    System.out.println("\t> "+two.yourName() + " forfeits, invalid throw");
-	    two.removeSelfFromGrid();
-	}
+		if (!oneValid)
+		{
+		    System.out.println("\t> "+one.yourName() + " forfeits, invalid throw");
+		    if(one.getGrid() != null) one.removeSelfFromGrid();
+		}
+		if (!twoValid)
+		{
+		    System.out.println("\t> "+two.yourName() + " forfeits, invalid throw");
+		    if(two.getGrid() != null) two.removeSelfFromGrid();
+		}
     }
 
     public String toString()
     {
-	String o = one.getClass().toString() + ":" + getThrowName(oneThrow);
-	String t = two.getClass().toString() + ":" + getThrowName(twoThrow);
-	return "[" + o + " vs " + t + "]";
+		String o = one.getClass().toString() + ":" + getThrowName(oneThrow);
+		String t = two.getClass().toString() + ":" + getThrowName(twoThrow);
+		return "[" + o + " vs " + t + "]";
     }
 
     public boolean validThrow(int sign)
@@ -64,55 +64,54 @@ public class RPSMatch
 
     public Class getCritterOneClass()
     {
-	return one.getClass();
+		return one.getClass();
     }
 
     public int getCritterOneThrow()
     {
-	return oneThrow;
+		return oneThrow;
     }
 
     public Class getCritterTwoClass()
     {
-	return two.getClass();
+		return two.getClass();
     }
 
     public int getCritterTwoThrow()
     {
-	return twoThrow;
+		return twoThrow;
     }
 
     public boolean isDraw()
     {
-	return oneThrow == twoThrow;
+		return oneThrow == twoThrow;
     }
 
     public RPSCritter getWinner()
     {
-	if(!oneValid || !twoValid)
-	{
-	    if(!oneValid && !twoValid) return null;
-	    if(!oneValid) return two;
-	    if(!twoValid) return one;
-	}
-	else if(oneThrow == ROCK)
+		if(!oneValid || !twoValid)
+		{
+		    if(!oneValid && !twoValid) return null;
+		    if(!oneValid) return two;
+		    if(!twoValid) return one;
+		}
+		else if(oneThrow == ROCK)
     	{
-	    if (twoThrow == PAPER) return two;
-	    if (twoThrow == SCISSORS) return one;
+		    if (twoThrow == PAPER) return two;
+		    if (twoThrow == SCISSORS) return one;
     	}
-    	
     	else if(oneThrow == PAPER)
     	{
-	    if (twoThrow == SCISSORS) return two;
-	    if (twoThrow == ROCK) return one;
-    	}
-    	
+		    if (twoThrow == SCISSORS) return two;
+		    if (twoThrow == ROCK) return one;
+    	}    	
     	else if(oneThrow == SCISSORS)
     	{
-	    if (twoThrow == ROCK) return two;
-	    if (twoThrow == PAPER) return one;
+		    if (twoThrow == ROCK) return two;
+		    if (twoThrow == PAPER) return one;
     	}
-	return null;
+    	// we should never get this far
+		return null;
     }
 
     private String getThrowName(int t)
