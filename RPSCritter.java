@@ -84,7 +84,9 @@ public abstract class RPSCritter extends Critter
      */
     public final ArrayList<Location> getMoveLocations()
     {
-        return getGrid().getValidAdjacentLocations(getLocation());
+	ArrayList<Location> options = getGrid().getValidAdjacentLocations(getLocation());
+	options.add(getLocation());
+	return options;
     }
 
 
